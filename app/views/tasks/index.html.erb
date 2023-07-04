@@ -1,0 +1,38 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Tasks</h1>
+
+<%= form_with(model: @task, class: "row g-3") do |form| %>
+  <% if @task.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+        <% @task.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="col-auto">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="col-auto">
+    <%= form.button :submit, class:"btn btn-primary nb-3" %>
+  </div>
+<% end %>
+
+<%= turbo_stream_from 'tasks' %>
+
+<h3>TO DO</h3>
+<%= turbo_frame_tag "todo_list" do %>
+  <%= render @tasks %>
+<% end %>
+
+<h3>DONE</h3>
+<%= turbo_frame_tag "done_list" do %>
+  <%= render @done_tasks %>
+<% end %>
